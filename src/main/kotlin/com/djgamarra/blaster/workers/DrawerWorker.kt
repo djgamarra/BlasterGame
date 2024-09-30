@@ -58,7 +58,7 @@ class DrawerWorker(private val mainWindow: MainWindow) : Thread() {
             oldTick = currentTick
             currentTick = System.nanoTime()
             tickCount++
-            tickCount %= 10
+            tickCount %= 20
 
             fpsDelay(renderStart)
         }

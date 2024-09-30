@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
-class MainWindow() : JFrame() {
+class MainWindow : JFrame() {
     private val worker = DrawerWorker(this)
     private val canvas = GameCanvas()
 
@@ -34,6 +34,7 @@ class MainWindow() : JFrame() {
         SwingUtilities.invokeLater {
             val graphics = canvas.graphics as Graphics2D
             graphics.drawImage(image, 0, 0, null)
+            graphics.dispose()
             Toolkit.getDefaultToolkit().sync()
         }
     }

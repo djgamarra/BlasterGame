@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.djgamarra.blaster"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -16,6 +16,13 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register<JavaExec>("run") {
+    group = "application"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("com.djgamarra.blaster.MainKt")
+}
+
 kotlin {
     jvmToolchain(21)
 }
