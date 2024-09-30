@@ -3,7 +3,6 @@ package com.djgamarra.blaster.views
 import com.djgamarra.blaster.workers.DrawerWorker
 import java.awt.Dimension
 import java.awt.Graphics2D
-import java.awt.GraphicsEnvironment
 import java.awt.Toolkit
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
@@ -15,13 +14,16 @@ class MainWindow : JFrame() {
 
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
+
+        addWindowListener(MainWindowListener(worker))
+
         title = "Blaster Game"
         isResizable = false
-        size = Dimension(ViewConstants.VIEWPORT_WIDTH, ViewConstants.VIEWPORT_HEIGHT)
-        location = GraphicsEnvironment.getLocalGraphicsEnvironment().centerPoint.apply {
+        size = Dimension(ViewUtils.VIEWPORT_WIDTH, ViewUtils.VIEWPORT_HEIGHT)
+        location = ViewUtils.defaultGraphicsEnvironment.centerPoint.apply {
             translate(
-                -ViewConstants.VIEWPORT_WIDTH / 2,
-                -ViewConstants.VIEWPORT_HEIGHT / 2
+                -ViewUtils.VIEWPORT_WIDTH / 2,
+                -ViewUtils.VIEWPORT_HEIGHT / 2
             )
         }
 
