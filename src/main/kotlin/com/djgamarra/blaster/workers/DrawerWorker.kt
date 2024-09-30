@@ -7,24 +7,19 @@ import java.awt.*
 import kotlin.math.roundToInt
 
 
-class DrawerWorker(private val mainWindow: MainWindow) : Thread() {
+class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
     private val metrics = RenderMetrics()
     private val image = ViewUtils.createImage(ViewUtils.VIEWPORT_WIDTH, ViewUtils.VIEWPORT_HEIGHT)
 
-    private val drawingGraphics: Graphics2D
-        get() {
-            val g = image.graphics as Graphics2D
-            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            return g
-        }
+    private val mainWindow = MainWindow(this)
 
     override fun run() {
-        mainWindow.isVisible = true
+        mainWindow.start()
 
         try {
             loop()
         } catch (e: InterruptedException) {
+            gameWorker.interrupt()
             return
         }
     }
@@ -33,9 +28,11 @@ class DrawerWorker(private val mainWindow: MainWindow) : Thread() {
         while (true) {
             metrics.tickStart()
 
-            val g = drawingGraphics
+            val g = drawingGraphics()
+
             renderBackground(g)
             renderGame(g)
+
             g.dispose()
 
             mainWindow.drawTick(image)
@@ -68,5 +65,12 @@ class DrawerWorker(private val mainWindow: MainWindow) : Thread() {
 
     private fun fpsDelay() {
         sleep(metrics.sleepTimeToNewTick)
+    }
+
+    private fun drawingGraphics(): Graphics2D {
+        val g = image.graphics as Graphics2D
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        return g
     }
 }

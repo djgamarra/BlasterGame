@@ -1,7 +1,7 @@
 package com.djgamarra.blaster
 
-import com.djgamarra.blaster.views.MainWindow
+import com.djgamarra.blaster.workers.GameWorker
 
 fun main() {
-    MainWindow()
+    GameWorker().start()
 }

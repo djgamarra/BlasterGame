@@ -8,15 +8,14 @@ import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
 
-class MainWindow : JFrame() {
-    private val worker = DrawerWorker(this)
+class MainWindow(drawerWorker: DrawerWorker) : JFrame() {
     private val canvas = GameCanvas()
     private val strategy: BufferStrategy
 
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
 
-        addWindowListener(MainWindowListener(worker))
+        addWindowListener(MainWindowListener(drawerWorker))
 
         title = "Blaster Game"
         isResizable = false
@@ -32,8 +31,12 @@ class MainWindow : JFrame() {
 
         canvas.createBufferStrategy(2)
         strategy = canvas.bufferStrategy
+    }
 
-        worker.start()
+    fun start() {
+        SwingUtilities.invokeLater {
+            isVisible = true
+        }
     }
 
     fun drawTick(image: BufferedImage) {
