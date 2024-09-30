@@ -7,6 +7,6 @@ import java.awt.Dimension
 class GameCanvas : Canvas() {
     init {
         size = Dimension(ViewConstants.VIEWPORT_WIDTH, ViewConstants.VIEWPORT_HEIGHT)
-        background = Color.BLACK
+        background = ViewConstants.GAME_BACKGROUND_COLOR
     }
 }
