@@ -3,13 +3,12 @@ package com.djgamarra.blaster.data
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.AlphaComposite
 import java.awt.Graphics2D
+import java.awt.event.MouseEvent
 import kotlin.random.Random
 
 class StartBackground {
     private var x = 0
     private var y = 0
-    private var deltaX = -1
-    private var deltaY = -1
 
     private val image = ViewUtils.createImage(WIDTH, HEIGHT).apply {
         (graphics as Graphics2D).apply {
@@ -24,32 +23,20 @@ class StartBackground {
                 ViewUtils.readImage("yellow.png")
             )
 
-            var x = 0
-            while (x < width) {
-                var y = 0
-                while (y < height) {
-                    val image = images[Random.nextInt(images.size)]
-                    drawImage(image, x, y, null)
-                    y += TILE_DELTA_Y
+
+            for (x in 0 until width step TILE_DELTA_X) {
+                for (y in 0 until height step TILE_DELTA_Y) {
+                    drawImage(images[Random.nextInt(images.size)], x, y, null)
                 }
-                x += TILE_DELTA_X
             }
 
             dispose()
         }
     }
 
-    fun move() {
-        x += deltaX
-        y += deltaY
-
-        if (x > 0 || WIDTH + x < ViewUtils.VIEWPORT_WIDTH) {
-            deltaX = -deltaX;
-        }
-
-        if (y > 0 || HEIGHT + y < ViewUtils.VIEWPORT_HEIGHT) {
-            deltaY = -deltaY;
-        }
+    fun mouseMoved(e: MouseEvent) {
+        x = -(e.x * PARALLAX_MULTIPLIER).toInt()
+        y = -(e.y * PARALLAX_MULTIPLIER).toInt()
     }
 
     fun draw(g: Graphics2D) {
@@ -59,10 +46,17 @@ class StartBackground {
     companion object {
         private const val TILE_ALPHA = 0.15F
 
-        private const val WIDTH = ViewUtils.VIEWPORT_WIDTH * 2
-        private const val HEIGHT = ViewUtils.VIEWPORT_HEIGHT * 2
+        private const val SIZE_MULTIPLIER = 1.3F
+        private const val PARALLAX_MULTIPLIER = SIZE_MULTIPLIER - 1
 
-        private val TILE_DELTA_X = 40 + ViewUtils.spacing(0.5F)
-        private val TILE_DELTA_Y = 32 + ViewUtils.spacing(0.5F)
+        private const val WIDTH = (ViewUtils.VIEWPORT_WIDTH * SIZE_MULTIPLIER).toInt()
+        private const val HEIGHT = (ViewUtils.VIEWPORT_HEIGHT * SIZE_MULTIPLIER).toInt()
+
+        private const val TILE_WIDTH = 40
+        private const val TILE_HEIGHT = 32
+        private const val TILE_SPACING = 0.5F
+
+        private val TILE_DELTA_X = TILE_WIDTH + ViewUtils.spacing(TILE_SPACING)
+        private val TILE_DELTA_Y = TILE_HEIGHT + ViewUtils.spacing(TILE_SPACING)
     }
 }

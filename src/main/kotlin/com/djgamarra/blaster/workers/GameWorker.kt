@@ -1,7 +1,6 @@
 package com.djgamarra.blaster.workers
 
 import com.djgamarra.blaster.data.Game
-import java.awt.event.MouseEvent
 
 object GameWorker : Thread() {
     override fun run() {

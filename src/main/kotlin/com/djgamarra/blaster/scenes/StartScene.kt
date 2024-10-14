@@ -20,6 +20,7 @@ class StartScene : Scene() {
     }
 
     override fun mouseMoved(e: MouseEvent) {
+        background.mouseMoved(e)
         buttons.forEach { it.mouseMoved(e) }
     }
 
@@ -28,7 +29,7 @@ class StartScene : Scene() {
     }
 
     override fun tick() {
-        background.move()
+//        background.move()
     }
 
     override fun draw(g: Graphics2D) {
