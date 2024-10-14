@@ -1,6 +1,6 @@
 package com.djgamarra.blaster.views
 
-import com.djgamarra.blaster.data.Game
+import com.djgamarra.blaster.scenes.RootScene
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
@@ -10,11 +10,11 @@ class MouseWindowListener : MouseMotionListener, MouseListener {
     }
 
     override fun mouseMoved(e: MouseEvent) {
-        Game.mouseMoved(e)
+        RootScene.mouseMoved(e)
     }
 
     override fun mouseClicked(e: MouseEvent) {
-        Game.mouseClicked(e)
+        RootScene.mouseClicked(e)
     }
 
     override fun mousePressed(e: MouseEvent) {

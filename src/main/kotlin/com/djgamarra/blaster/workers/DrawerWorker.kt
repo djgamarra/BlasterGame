@@ -1,6 +1,6 @@
 package com.djgamarra.blaster.workers
 
-import com.djgamarra.blaster.data.Game
+import com.djgamarra.blaster.scenes.RootScene
 import com.djgamarra.blaster.data.RenderMetrics
 import com.djgamarra.blaster.views.MainWindow
 import com.djgamarra.blaster.views.ViewUtils
@@ -52,7 +52,7 @@ object DrawerWorker : Thread() {
     }
 
     private fun renderGame(g: Graphics2D) {
-        Game.draw(g)
+        RootScene.draw(g)
     }
 
     private fun renderFps(g: Graphics2D) {

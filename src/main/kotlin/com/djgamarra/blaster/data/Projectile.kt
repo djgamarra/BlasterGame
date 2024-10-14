@@ -10,7 +10,7 @@ class Projectile(playerX: Int) {
 
     fun move(): Boolean {
         this.y -= STEP
-        return this.y < CONSTRAINT_END
+        return this.y > CONSTRAINT_END
     }
 
     fun draw(g: Graphics2D) {

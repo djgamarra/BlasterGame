@@ -1,6 +1,6 @@
 package com.djgamarra.blaster.workers
 
-import com.djgamarra.blaster.data.Game
+import com.djgamarra.blaster.scenes.RootScene
 
 object GameWorker : Thread() {
     override fun run() {
@@ -13,7 +13,7 @@ object GameWorker : Thread() {
 
     private fun loop() {
         while (true) {
-            Game.tick()
+            RootScene.tick()
         }
     }
 }

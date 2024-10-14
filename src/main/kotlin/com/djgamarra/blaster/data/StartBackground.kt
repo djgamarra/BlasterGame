@@ -23,7 +23,6 @@ class StartBackground {
                 ViewUtils.readImage("yellow.png")
             )
 
-
             for (x in 0 until width step TILE_DELTA_X) {
                 for (y in 0 until height step TILE_DELTA_Y) {
                     drawImage(images[Random.nextInt(images.size)], x, y, null)
@@ -46,7 +45,7 @@ class StartBackground {
     companion object {
         private const val TILE_ALPHA = 0.15F
 
-        private const val SIZE_MULTIPLIER = 1.3F
+        private const val SIZE_MULTIPLIER = 1.2F
         private const val PARALLAX_MULTIPLIER = SIZE_MULTIPLIER - 1
 
         private const val WIDTH = (ViewUtils.VIEWPORT_WIDTH * SIZE_MULTIPLIER).toInt()

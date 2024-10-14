@@ -10,35 +10,22 @@ class GameScene : Scene() {
     private val player = Player()
 
     private val projectilesTickCounter = TickCounter(20)
-    private val projectiles = mutableListOf<Projectile>()
+    private var projectiles = mutableListOf<Projectile>()
 
     override fun mouseMoved(e: MouseEvent) {
-        synchronized(player) {
-            player.moveTo(e.x)
-        }
-    }
-
-    override fun mouseClicked(e: MouseEvent) {
+        player.moveTo(e.x)
     }
 
     override fun tick() {
-        synchronized(projectiles) {
-            if (projectilesTickCounter.tick()) {
-                synchronized(player) {
-                    projectiles.add(Projectile(player.x))
-                }
-            }
-
-            projectiles.removeAll { it.move() }
+        val newProjectiles = projectiles.filter { it.move() }.toMutableList()
+        if (projectilesTickCounter.tick()) {
+            newProjectiles.add(Projectile(player.x))
         }
+        projectiles = newProjectiles
     }
 
     override fun draw(g: Graphics2D) {
-        synchronized(projectiles) {
-            projectiles.forEach { it.draw(g) }
-        }
-        synchronized(player) {
-            player.draw(g)
-        }
+        projectiles.forEach { it.draw(g) }
+        player.draw(g)
     }
 }

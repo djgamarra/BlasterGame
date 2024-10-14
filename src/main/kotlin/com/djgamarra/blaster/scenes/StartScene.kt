@@ -1,7 +1,6 @@
 package com.djgamarra.blaster.scenes
 
 import com.djgamarra.blaster.data.Button
-import com.djgamarra.blaster.data.Game
 import com.djgamarra.blaster.data.StartBackground
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Graphics2D
@@ -15,7 +14,7 @@ class StartScene : Scene() {
 
         y -= 50 + ViewUtils.spacing(0.5F)
         add(0, Button("START NEW GAME", y = y, onClick = {
-            Game.changeScene(GameScene())
+            RootScene.changeScene(GameScene())
         }))
     }
 
@@ -26,10 +25,6 @@ class StartScene : Scene() {
 
     override fun mouseClicked(e: MouseEvent) {
         buttons.forEach { it.mouseClicked(e) }
-    }
-
-    override fun tick() {
-//        background.move()
     }
 
     override fun draw(g: Graphics2D) {
