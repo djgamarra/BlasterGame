@@ -17,17 +17,8 @@ object GameWorker : Thread() {
     }
 
     private fun loop() {
-        var projectileCounter = 0
-
         while (true) {
             Game.tick()
-
-            if (projectileCounter == 0) {
-                Game.shot()
-            }
-            projectileCounter = (projectileCounter + 1) % 20
-
-            sleep(10)
         }
     }
 }

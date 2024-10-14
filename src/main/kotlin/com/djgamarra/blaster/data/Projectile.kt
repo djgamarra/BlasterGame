@@ -6,7 +6,7 @@ import java.awt.Graphics2D
 
 class Projectile(playerX: Int) {
     private val x = playerX + Player.WIDTH / 2 - WIDTH / 2
-    private var y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - Player.HEIGHT - ViewUtils.spacing()
+    private var y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - Player.HEIGHT
 
     fun moveBy(): Boolean {
         this.y -= STEP
