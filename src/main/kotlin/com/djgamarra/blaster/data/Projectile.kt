@@ -8,9 +8,8 @@ class Projectile(playerX: Int) {
     private val x = playerX + Player.WIDTH / 2 - WIDTH / 2
     private var y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - Player.HEIGHT
 
-    fun moveBy(): Boolean {
+    fun move(): Boolean {
         this.y -= STEP
-
         return this.y < CONSTRAINT_END
     }
 

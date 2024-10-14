@@ -14,8 +14,11 @@ class MainWindow : JFrame() {
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
 
+        val mouseListener = MouseWindowListener()
+
+        canvas.addMouseListener(mouseListener)
+        canvas.addMouseMotionListener(mouseListener)
         addWindowListener(MainWindowListener())
-        canvas.addMouseMotionListener(MouseWindowListener())
 
         title = "Blaster Game"
         isResizable = false

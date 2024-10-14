@@ -4,9 +4,11 @@ import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
 abstract class Scene {
-    abstract val tickWait: Long
+    open val tickWait = 10L
 
     abstract fun mouseMoved(e: MouseEvent)
+
+    abstract fun mouseClicked(e: MouseEvent)
 
     abstract fun tick()
 

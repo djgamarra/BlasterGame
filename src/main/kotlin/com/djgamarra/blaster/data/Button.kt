@@ -12,6 +12,8 @@ class Button(
 
     private val x: Int = ViewUtils.spacing(),
     private val y: Int = ViewUtils.spacing(),
+
+    private val onClick: (() -> Unit)? = null,
 ) {
     private val height = fontSize.toInt() + ViewUtils.spacing(2)
     private var width = 0
@@ -26,6 +28,12 @@ class Button(
         hovered = e.x >= x && e.x < x + width && e.y >= y && e.y < y + height
     }
 
+    fun mouseClicked(e: MouseEvent) {
+        if (e.x >= x && e.x < x + width && e.y >= y && e.y < y + height) {
+            onClick?.invoke()
+        }
+    }
+
     fun draw(g: Graphics2D) {
         g.font = ViewUtils.DEFAULT_FONT.deriveFont(fontSize)
 
@@ -38,7 +46,7 @@ class Button(
             g.fillRect(x, y, width, height)
             g.color = ViewUtils.GAME_BACKGROUND_COLOR
         } else {
-            g.stroke = BasicStroke(2F)
+            g.stroke = STROKE
             g.drawRect(x, y, width, height)
         }
 
@@ -51,5 +59,9 @@ class Button(
         }
 
         rendered = true
+    }
+
+    companion object {
+        private val STROKE = BasicStroke(2F)
     }
 }

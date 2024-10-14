@@ -57,7 +57,7 @@ object DrawerWorker : Thread() {
 
     private fun renderFps(g: Graphics2D) {
         g.color = Color.WHITE
-        g.font = ViewUtils.DEFAULT_FONT.deriveFont(18F)
-        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 18)
+        g.font = ViewUtils.DEFAULT_FONT.deriveFont(12F)
+        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 12)
     }
 }

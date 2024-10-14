@@ -7,10 +7,14 @@ import java.awt.event.MouseEvent
 import java.lang.Thread.sleep
 
 object Game {
-    private val currentScene: Scene = StartScene()
+    private var currentScene: Scene = StartScene()
 
     fun mouseMoved(e: MouseEvent) {
         currentScene.mouseMoved(e)
+    }
+
+    fun mouseClicked(e: MouseEvent) {
+        currentScene.mouseClicked(e)
     }
 
     fun tick() {
@@ -18,7 +22,15 @@ object Game {
         sleep(currentScene.tickWait)
     }
 
+    fun changeScene(scene: Scene) {
+        synchronized(currentScene) {
+            currentScene = scene
+        }
+    }
+
     fun draw(g: Graphics2D) {
-        currentScene.draw(g)
+        synchronized(currentScene) {
+            currentScene.draw(g)
+        }
     }
 }

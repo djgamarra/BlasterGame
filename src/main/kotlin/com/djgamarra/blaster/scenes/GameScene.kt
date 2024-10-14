@@ -7,8 +7,6 @@ import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
 class GameScene : Scene() {
-    override val tickWait = 10L
-
     private val player = Player()
 
     private val projectilesTickCounter = TickCounter(20)
@@ -20,6 +18,9 @@ class GameScene : Scene() {
         }
     }
 
+    override fun mouseClicked(e: MouseEvent) {
+    }
+
     override fun tick() {
         synchronized(projectiles) {
             if (projectilesTickCounter.tick()) {
@@ -28,7 +29,7 @@ class GameScene : Scene() {
                 }
             }
 
-            projectiles.removeAll { it.moveBy() }
+            projectiles.removeAll { it.move() }
         }
     }
 
