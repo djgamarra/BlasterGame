@@ -5,7 +5,6 @@ import com.djgamarra.blaster.data.RenderMetrics
 import com.djgamarra.blaster.views.MainWindow
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Color
-import java.awt.Font
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 
@@ -58,7 +57,7 @@ object DrawerWorker : Thread() {
 
     private fun renderFps(g: Graphics2D) {
         g.color = Color.WHITE
-        g.font = Font("Arial", Font.BOLD, 15)
-        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 15)
+        g.font = ViewUtils.DEFAULT_FONT.deriveFont(18F)
+        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 18)
     }
 }

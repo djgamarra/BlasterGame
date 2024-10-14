@@ -1,13 +1,13 @@
 package com.djgamarra.blaster.data
 
-import com.djgamarra.blaster.scenes.BlasterGameScene
 import com.djgamarra.blaster.scenes.Scene
+import com.djgamarra.blaster.scenes.StartScene
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 import java.lang.Thread.sleep
 
 object Game {
-    private val currentScene: Scene = BlasterGameScene()
+    private val currentScene: Scene = StartScene()
 
     fun mouseMoved(e: MouseEvent) {
         currentScene.mouseMoved(e)

@@ -6,7 +6,7 @@ import com.djgamarra.blaster.data.TickCounter
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
-class BlasterGameScene : Scene() {
+class GameScene : Scene() {
     override val tickWait = 10L
 
     private val player = Player()
