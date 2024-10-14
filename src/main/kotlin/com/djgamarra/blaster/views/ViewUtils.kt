@@ -5,6 +5,7 @@ import java.awt.GraphicsConfiguration
 import java.awt.GraphicsEnvironment
 import java.awt.Transparency
 import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
 
 object ViewUtils {
     const val VIEWPORT_HEIGHT = 700
@@ -23,7 +24,9 @@ object ViewUtils {
         width: Int = VIEWPORT_WIDTH,
         height: Int = VIEWPORT_HEIGHT,
         transparency: Int = Transparency.TRANSLUCENT
-    ): BufferedImage {
-        return defaultScreenConfig.createCompatibleImage(width, height, transparency)
-    }
+    ): BufferedImage = defaultScreenConfig.createCompatibleImage(width, height, transparency)
+
+    fun spacing(n: Int = 1): Int = 10 * n
+
+    fun readImage(name: String): BufferedImage = ImageIO.read(javaClass.getResourceAsStream("/images/$name"))
 }

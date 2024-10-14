@@ -1,6 +1,5 @@
 package com.djgamarra.blaster.views
 
-import com.djgamarra.blaster.workers.DrawerWorker
 import java.awt.Dimension
 import java.awt.image.BufferStrategy
 import java.awt.image.BufferedImage
@@ -8,14 +7,15 @@ import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
 
-class MainWindow(drawerWorker: DrawerWorker) : JFrame() {
+class MainWindow : JFrame() {
     private val canvas = GameCanvas()
     private val strategy: BufferStrategy
 
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
 
-        addWindowListener(MainWindowListener(drawerWorker))
+        addWindowListener(MainWindowListener())
+        canvas.addMouseMotionListener(MouseWindowListener())
 
         title = "Blaster Game"
         isResizable = false
@@ -29,7 +29,7 @@ class MainWindow(drawerWorker: DrawerWorker) : JFrame() {
         add(canvas)
         pack()
 
-        canvas.createBufferStrategy(2)
+        canvas.createBufferStrategy(1)
         strategy = canvas.bufferStrategy
     }
 
@@ -43,9 +43,10 @@ class MainWindow(drawerWorker: DrawerWorker) : JFrame() {
         SwingUtilities.invokeLater {
             do {
                 do {
-                    val graphics = strategy.drawGraphics
-                    graphics.drawImage(image, 0, 0, null)
-                    graphics.dispose()
+                    strategy.drawGraphics.apply {
+                        drawImage(image, 0, 0, null)
+                        dispose()
+                    }
                 } while (strategy.contentsRestored())
 
                 strategy.show()

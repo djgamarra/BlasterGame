@@ -1,17 +1,24 @@
 package com.djgamarra.blaster.workers
 
+import com.djgamarra.blaster.data.Game
 import com.djgamarra.blaster.data.RenderMetrics
 import com.djgamarra.blaster.views.MainWindow
 import com.djgamarra.blaster.views.ViewUtils
-import java.awt.*
-import kotlin.math.roundToInt
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.RenderingHints
 
 
-class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
-    private val metrics = RenderMetrics()
+object DrawerWorker : Thread() {
     private val image = ViewUtils.createImage(ViewUtils.VIEWPORT_WIDTH, ViewUtils.VIEWPORT_HEIGHT)
+    private val mainWindow = MainWindow()
 
-    private val mainWindow = MainWindow(this)
+    private val drawingGraphics: Graphics2D
+        get() = (image.graphics as Graphics2D).also { g ->
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        }
 
     override fun run() {
         mainWindow.start()
@@ -19,21 +26,22 @@ class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
         try {
             loop()
         } catch (e: InterruptedException) {
-            gameWorker.interrupt()
             return
         }
     }
 
     private fun loop() {
         while (true) {
-            metrics.measureFrame {
-                drawingGraphics().let { g ->
+            RenderMetrics.measureFrame {
+                drawingGraphics.let { g ->
                     renderBackground(g)
                     renderGame(g)
+                    renderFps(g)
+
                     g.dispose()
                 }
-                mainWindow.drawCanvas(image)
 
+                mainWindow.drawCanvas(image)
                 sleep(it.sleepTime)
             }
         }
@@ -45,25 +53,12 @@ class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
     }
 
     private fun renderGame(g: Graphics2D) {
-        g.color = Color.WHITE
-        g.stroke = BasicStroke(5F)
-        g.font = Font("Arial", Font.BOLD, 50)
-
-        g.drawLine(0, 0, 600, 30)
-        g.drawString("FPS ${metrics.currentFps}", 10, 100)
-
-        g.fillOval(
-            (Math.random() * ViewUtils.VIEWPORT_WIDTH).roundToInt(),
-            (Math.random() * ViewUtils.VIEWPORT_HEIGHT).roundToInt(),
-            50,
-            50
-        )
+        Game.draw(g)
     }
 
-    private fun drawingGraphics(): Graphics2D {
-        val g = image.graphics as Graphics2D
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        return g
+    private fun renderFps(g: Graphics2D) {
+        g.color = Color.WHITE
+        g.font = Font("Arial", Font.BOLD, 15)
+        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 15)
     }
 }

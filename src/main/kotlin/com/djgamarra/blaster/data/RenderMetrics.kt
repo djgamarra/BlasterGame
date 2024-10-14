@@ -4,13 +4,13 @@ import com.djgamarra.blaster.Utils
 import com.djgamarra.blaster.views.ViewUtils
 import kotlin.math.max
 
-class RenderMetrics {
+object RenderMetrics {
     private var frameStart: Long
     private var frameEnd: Long
 
     private var frameCount = 0
 
-    var currentFps = 0L
+    var currentFps = ViewUtils.MAX_FPS
         private set
 
     val sleepTime: Long
