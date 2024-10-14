@@ -39,7 +39,7 @@ class MainWindow(drawerWorker: DrawerWorker) : JFrame() {
         }
     }
 
-    fun drawTick(image: BufferedImage) {
+    fun drawCanvas(image: BufferedImage) {
         SwingUtilities.invokeLater {
             do {
                 do {

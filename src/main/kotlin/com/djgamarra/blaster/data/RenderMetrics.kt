@@ -5,34 +5,41 @@ import com.djgamarra.blaster.views.ViewUtils
 import kotlin.math.max
 
 class RenderMetrics {
-    private var currentTick = System.nanoTime()
-    private var oldTick = currentTick - 1
-    private var renderStart = currentTick
-    private var tickCount = 0
+    private var frameStart: Long
+    private var frameEnd: Long
 
-    var fpsCount = 0L
+    private var frameCount = 0
 
-    val sleepTimeToNewTick
+    var currentFps = 0L
+        private set
+
+    val sleepTime: Long
         get() = max(
             0,
-            ((Utils.SECOND_IN_NS / ViewUtils.MAX_FPS) - (System.nanoTime() - renderStart)) / Utils.MS_IN_NS
+            ((Utils.SECOND_IN_NS / ViewUtils.MAX_FPS) - (System.nanoTime() - frameStart)) / Utils.MS_IN_NS
         )
 
-    fun tickStart() {
-        renderStart = System.nanoTime()
+    init {
+        val now = System.nanoTime()
+
+        frameStart = now - 1
+        frameEnd = now
     }
 
-    fun tickEnd() {
-        oldTick = currentTick
-        currentTick = System.nanoTime()
-        tickCount = (tickCount + 1) % 20
+    fun measureFrame(block: (it: RenderMetrics) -> Unit) {
+        frameStart = System.nanoTime()
 
-        if (tickCount == 0) {
-            syncFpsCounter()
+        block(this)
+
+        frameEnd = System.nanoTime()
+        frameCount = (frameCount + 1) % ViewUtils.MAX_FPS_COUNT
+
+        if (frameCount == 0) {
+            syncFps()
         }
     }
 
-    private fun syncFpsCounter() {
-        fpsCount = Utils.SECOND_IN_NS / (currentTick - oldTick)
+    private fun syncFps() {
+        currentFps = Utils.SECOND_IN_NS / (frameEnd - frameStart)
     }
 }

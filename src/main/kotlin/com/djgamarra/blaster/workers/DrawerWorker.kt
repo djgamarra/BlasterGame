@@ -26,19 +26,16 @@ class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
 
     private fun loop() {
         while (true) {
-            metrics.tickStart()
+            metrics.measureFrame {
+                drawingGraphics().let { g ->
+                    renderBackground(g)
+                    renderGame(g)
+                    g.dispose()
+                }
+                mainWindow.drawCanvas(image)
 
-            val g = drawingGraphics()
-
-            renderBackground(g)
-            renderGame(g)
-
-            g.dispose()
-
-            mainWindow.drawTick(image)
-
-            metrics.tickEnd()
-            fpsDelay()
+                sleep(it.sleepTime)
+            }
         }
     }
 
@@ -53,7 +50,7 @@ class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
         g.font = Font("Arial", Font.BOLD, 50)
 
         g.drawLine(0, 0, 600, 30)
-        g.drawString("FPS ${metrics.fpsCount}", 10, 100)
+        g.drawString("FPS ${metrics.currentFps}", 10, 100)
 
         g.fillOval(
             (Math.random() * ViewUtils.VIEWPORT_WIDTH).roundToInt(),
@@ -61,10 +58,6 @@ class DrawerWorker(private val gameWorker: GameWorker) : Thread() {
             50,
             50
         )
-    }
-
-    private fun fpsDelay() {
-        sleep(metrics.sleepTimeToNewTick)
     }
 
     private fun drawingGraphics(): Graphics2D {
