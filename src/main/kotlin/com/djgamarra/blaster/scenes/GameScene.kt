@@ -17,11 +17,13 @@ class GameScene : Scene() {
     }
 
     override fun tick() {
-        val newProjectiles = projectiles.filter { it.move() }.toMutableList()
-        if (projectilesTickCounter.tick()) {
-            newProjectiles.add(Projectile(player.x))
+        synchronized(projectiles) {
+            val newProjectiles = projectiles.filter { it.move() }.toMutableList()
+            if (projectilesTickCounter.tick()) {
+                newProjectiles.add(Projectile(player.x))
+            }
+            projectiles = newProjectiles
         }
-        projectiles = newProjectiles
     }
 
     override fun draw(g: Graphics2D) {

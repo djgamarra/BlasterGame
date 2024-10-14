@@ -1,32 +1,58 @@
 package com.djgamarra.blaster.scenes
 
+import com.djgamarra.blaster.data.AnimationValue
+import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 import java.lang.Thread.sleep
 
 object RootScene : Scene() {
-    private var visibleScenes = mutableListOf<Scene>(StartScene())
+    private var currentScene: Scene = StartScene()
+    private var backScene: Scene? = null
+    private val sceneTransition = AnimationValue(0, ViewUtils.VIEWPORT_HEIGHT, 1, onAnimationEnd = {
+        synchronized(currentScene) {
+            backScene = null
+        }
+    })
 
     override fun mouseMoved(e: MouseEvent) {
-        visibleScenes.forEach { it.mouseMoved(e) }
+        currentScene.mouseMoved(e)
+        backScene?.mouseMoved(e)
     }
 
     override fun mouseClicked(e: MouseEvent) {
-        visibleScenes.forEach { it.mouseClicked(e) }
+        currentScene.mouseClicked(e)
+        backScene?.mouseClicked(e)
     }
 
     override fun tick() {
-        visibleScenes.forEach { it.tick() }
+        currentScene.tick()
+        backScene?.tick()
+
+        sceneTransition.tick()
         sleep(TICK_WAIT)
     }
 
     override fun draw(g: Graphics2D) {
-        visibleScenes.forEach { it.draw(g) }
+        val sceneTransitionValue = sceneTransition.value
+
+        g.translate(0, -sceneTransitionValue)
+        currentScene.draw(g)
+        g.translate(0, sceneTransitionValue * 2)
+        backScene?.draw(g)
+        g.translate(0, -sceneTransitionValue)
     }
 
     fun changeScene(scene: Scene) {
-        val newScenes = mutableListOf(scene)
-        newScenes.addAll(0, visibleScenes)
-        visibleScenes = newScenes
+        synchronized(currentScene) {
+            if (backScene != null) {
+                return
+            }
+
+            backScene = currentScene
+            currentScene = scene
+
+            sceneTransition.start()
+        }
     }
 }
