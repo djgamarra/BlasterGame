@@ -13,11 +13,21 @@ object GameWorker : Thread() {
     }
 
     fun mouseMoved(e: MouseEvent) {
-        Game.player.moveTo(e.x)
+        Game.mouseMoved(e)
     }
 
     private fun loop() {
-//        while (true) {
-//        }
+        var projectileCounter = 0
+
+        while (true) {
+            Game.tick()
+
+            if (projectileCounter == 0) {
+                Game.shot()
+            }
+            projectileCounter = (projectileCounter + 1) % 20
+
+            sleep(10)
+        }
     }
 }
