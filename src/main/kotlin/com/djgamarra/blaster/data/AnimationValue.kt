@@ -9,7 +9,8 @@ class AnimationValue(
     private val step: Int,
     private val onAnimationEnd: (() -> Unit)? = null
 ) {
-    private var enabled = false
+    var enabled = false
+        private set
     var value: Int = initialValue
         private set(value) {
             synchronized(this) {
