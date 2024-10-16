@@ -1,6 +1,6 @@
-package com.djgamarra.blaster.data
+package com.djgamarra.blaster.utils
 
-import com.djgamarra.blaster.Utils
+import com.djgamarra.blaster.data.RenderContext
 import kotlin.math.max
 import kotlin.math.min
 
@@ -18,7 +18,7 @@ class AnimationValue(
     fun valueFor(ctx: RenderContext): Int {
         if (enabled) {
             val elapsedTime = min(
-                ((ctx.renderTime - startTime) / Utils.MS_IN_NS).toInt(), duration
+                ((ctx.renderTime - startTime) / MathUtils.MS_IN_NS).toInt(), duration
             ).toFloat()
             val newValue = (initialValue + (elapsedTime / duration) * (finalValue - initialValue)).toInt()
 

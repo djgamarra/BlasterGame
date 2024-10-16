@@ -3,8 +3,8 @@ package com.djgamarra.blaster.workers
 import com.djgamarra.blaster.data.RenderContext
 import com.djgamarra.blaster.data.RenderMetrics
 import com.djgamarra.blaster.scenes.RootScene
+import com.djgamarra.blaster.utils.ViewUtils
 import com.djgamarra.blaster.views.MainWindow
-import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.RenderingHints

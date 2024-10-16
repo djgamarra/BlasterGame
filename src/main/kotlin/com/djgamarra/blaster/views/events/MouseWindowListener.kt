@@ -1,4 +1,4 @@
-package com.djgamarra.blaster.views
+package com.djgamarra.blaster.views.events
 
 import com.djgamarra.blaster.scenes.RootScene
 import java.awt.event.MouseEvent

@@ -1,5 +1,8 @@
 package com.djgamarra.blaster.views
 
+import com.djgamarra.blaster.utils.ViewUtils
+import com.djgamarra.blaster.views.events.MainWindowListener
+import com.djgamarra.blaster.views.events.MouseWindowListener
 import java.awt.Dimension
 import java.awt.image.BufferStrategy
 import java.awt.image.BufferedImage

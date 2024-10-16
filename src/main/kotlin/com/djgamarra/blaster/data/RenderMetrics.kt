@@ -1,7 +1,7 @@
 package com.djgamarra.blaster.data
 
-import com.djgamarra.blaster.Utils
-import com.djgamarra.blaster.views.ViewUtils
+import com.djgamarra.blaster.utils.MathUtils
+import com.djgamarra.blaster.utils.ViewUtils
 import kotlin.math.max
 
 object RenderMetrics {
@@ -16,7 +16,7 @@ object RenderMetrics {
     val sleepTime: Long
         get() = max(
             0,
-            ((Utils.SECOND_IN_NS / ViewUtils.MAX_FPS) - (System.nanoTime() - frameStart)) / Utils.MS_IN_NS
+            ((MathUtils.SECOND_IN_NS / ViewUtils.MAX_FPS) - (System.nanoTime() - frameStart)) / MathUtils.MS_IN_NS
         )
 
     init {
@@ -40,6 +40,6 @@ object RenderMetrics {
     }
 
     private fun syncFps() {
-        currentFps = Utils.SECOND_IN_NS / (frameEnd - frameStart)
+        currentFps = MathUtils.SECOND_IN_NS / (frameEnd - frameStart)
     }
 }

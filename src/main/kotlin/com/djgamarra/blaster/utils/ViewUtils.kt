@@ -1,4 +1,4 @@
-package com.djgamarra.blaster.views
+package com.djgamarra.blaster.utils
 
 import java.awt.*
 import java.awt.image.BufferedImage

@@ -1,5 +1,6 @@
 package com.djgamarra.blaster.views
 
+import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Canvas
 import java.awt.Dimension
 

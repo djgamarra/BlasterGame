@@ -1,9 +1,9 @@
 package com.djgamarra.blaster.scenes
 
-import com.djgamarra.blaster.data.Player
-import com.djgamarra.blaster.data.Projectile
 import com.djgamarra.blaster.data.RenderContext
-import com.djgamarra.blaster.data.TickCounter
+import com.djgamarra.blaster.scenes.components.Player
+import com.djgamarra.blaster.scenes.components.Projectile
+import com.djgamarra.blaster.utils.TickCounter
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 

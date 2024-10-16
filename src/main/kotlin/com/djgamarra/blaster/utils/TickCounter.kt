@@ -1,4 +1,4 @@
-package com.djgamarra.blaster.data
+package com.djgamarra.blaster.utils
 
 class TickCounter(private val maxTicks: Int) {
     private var tickCounter = 1

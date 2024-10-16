@@ -1,7 +1,8 @@
-package com.djgamarra.blaster.data
+package com.djgamarra.blaster.scenes.components
 
+import com.djgamarra.blaster.data.RenderContext
 import com.djgamarra.blaster.scenes.Scene
-import com.djgamarra.blaster.views.ViewUtils
+import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.AlphaComposite
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
