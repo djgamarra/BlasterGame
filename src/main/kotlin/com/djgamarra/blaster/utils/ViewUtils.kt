@@ -7,8 +7,7 @@ import javax.imageio.ImageIO
 object ViewUtils {
     const val VIEWPORT_HEIGHT = 700
     const val VIEWPORT_WIDTH = 900
-    const val MAX_FPS = 60L
-    const val MAX_FPS_COUNT = 20
+    const val MAX_FPS = 120L
 
     val GAME_BACKGROUND_COLOR = Color(33, 33, 33)
     val DEFAULT_FONT: Font = Font.createFont(Font.TRUETYPE_FONT, javaClass.getResourceAsStream("/fonts/Steelar.otf"))

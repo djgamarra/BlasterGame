@@ -1,6 +1,7 @@
 package com.djgamarra.blaster.data
 
 import com.djgamarra.blaster.utils.MathUtils
+import com.djgamarra.blaster.utils.TickCounter
 import com.djgamarra.blaster.utils.ViewUtils
 import kotlin.math.max
 
@@ -8,7 +9,7 @@ object RenderMetrics {
     private var frameStart: Long
     private var frameEnd: Long
 
-    private var frameCount = 0
+    private val frameTickCounter = TickCounter(20)
 
     var currentFps = ViewUtils.MAX_FPS
         private set
@@ -28,13 +29,10 @@ object RenderMetrics {
 
     fun startFrame(block: RenderMetrics.(ctx: RenderContext) -> Unit) {
         frameStart = System.nanoTime()
-
         this.block(RenderContext(frameStart))
-
         frameEnd = System.nanoTime()
-        frameCount = (frameCount + 1) % ViewUtils.MAX_FPS_COUNT
 
-        if (frameCount == 0) {
+        if (frameTickCounter.tick()) {
             syncFps()
         }
     }
