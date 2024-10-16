@@ -1,5 +1,6 @@
 package com.djgamarra.blaster.scenes
 
+import com.djgamarra.blaster.data.RenderContext
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 import java.lang.Thread.sleep
@@ -20,8 +21,8 @@ object RootScene : Scene() {
         sleep(TICK_WAIT)
     }
 
-    override fun draw(g: Graphics2D) {
-        currentScene.draw(g)
+    override fun draw(g: Graphics2D, ctx: RenderContext) {
+        currentScene.draw(g, ctx)
     }
 
     fun changeScene(scene: Scene) {

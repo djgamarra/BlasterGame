@@ -1,51 +1,46 @@
 package com.djgamarra.blaster.data
 
+import com.djgamarra.blaster.Utils
 import kotlin.math.max
 import kotlin.math.min
 
 class AnimationValue(
     private val initialValue: Int,
     private val finalValue: Int,
-    private val step: Int,
-    private val onAnimationEnd: (() -> Unit)? = null
+    private val duration: Int,
 ) {
+    private var startTime = System.nanoTime()
+    private val reversed = initialValue < finalValue
+    private var cachedValue: Int = initialValue
     var enabled = false
         private set
-    var value: Int = initialValue
-        private set(value) {
-            synchronized(this) {
-                field = value
+
+    fun valueFor(ctx: RenderContext): Int {
+        if (enabled) {
+            val elapsedTime = min(
+                ((ctx.renderTime - startTime) / Utils.MS_IN_NS).toInt(), duration
+            ).toFloat()
+            val newValue = (initialValue + (elapsedTime / duration) * (finalValue - initialValue)).toInt()
+
+            cachedValue = if (reversed) {
+                min(finalValue, newValue)
+            } else {
+                max(finalValue, newValue)
+            }
+
+            if (cachedValue == finalValue) {
+                enabled = false
             }
         }
-        get() {
-            synchronized(this) {
-                return field
-            }
-        }
+
+        return cachedValue
+    }
 
     fun start() {
         synchronized(this) {
             enabled = true
-            value = initialValue
-        }
-    }
-
-    fun tick() {
-        synchronized(this) {
-            if (!enabled) {
-                return
-            }
-
-            value = if (finalValue > initialValue) {
-                min(finalValue, value + step)
-            } else {
-                max(finalValue, value + step)
-            }
-
-            if (value == finalValue) {
-                enabled = false
-                onAnimationEnd?.invoke()
-            }
+            startTime = System.nanoTime()
+            cachedValue = initialValue
         }
     }
 }

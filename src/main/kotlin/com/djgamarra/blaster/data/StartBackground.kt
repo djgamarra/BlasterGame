@@ -1,12 +1,13 @@
 package com.djgamarra.blaster.data
 
+import com.djgamarra.blaster.scenes.Scene
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.AlphaComposite
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 import kotlin.random.Random
 
-class StartBackground {
+class StartBackground : Scene() {
     private var x = 0
     private var y = 0
 
@@ -33,12 +34,12 @@ class StartBackground {
         }
     }
 
-    fun mouseMoved(e: MouseEvent) {
+    override fun mouseMoved(e: MouseEvent) {
         x = -(e.x * PARALLAX_MULTIPLIER).toInt()
         y = -(e.y * PARALLAX_MULTIPLIER).toInt()
     }
 
-    fun draw(g: Graphics2D) {
+    override fun draw(g: Graphics2D, ctx: RenderContext) {
         g.drawImage(image, x, y, null)
     }
 

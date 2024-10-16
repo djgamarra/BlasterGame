@@ -1,6 +1,7 @@
 package com.djgamarra.blaster.scenes
 
 import com.djgamarra.blaster.data.Button
+import com.djgamarra.blaster.data.RenderContext
 import com.djgamarra.blaster.data.StartBackground
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Graphics2D
@@ -27,8 +28,8 @@ class StartScene : Scene() {
         buttons.forEach { it.mouseClicked(e) }
     }
 
-    override fun draw(g: Graphics2D) {
-        background.draw(g)
-        buttons.forEach { it.draw(g) }
+    override fun draw(g: Graphics2D, ctx: RenderContext) {
+        background.draw(g, ctx)
+        buttons.forEach { it.draw(g, ctx) }
     }
 }

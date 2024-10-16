@@ -1,7 +1,8 @@
 package com.djgamarra.blaster.workers
 
-import com.djgamarra.blaster.scenes.RootScene
+import com.djgamarra.blaster.data.RenderContext
 import com.djgamarra.blaster.data.RenderMetrics
+import com.djgamarra.blaster.scenes.RootScene
 import com.djgamarra.blaster.views.MainWindow
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Color
@@ -31,17 +32,17 @@ object DrawerWorker : Thread() {
 
     private fun loop() {
         while (true) {
-            RenderMetrics.measureFrame {
+            RenderMetrics.startFrame { ctx ->
                 drawingGraphics.let { g ->
                     renderBackground(g)
-                    renderGame(g)
+                    renderGame(g, ctx)
                     renderFps(g)
 
                     g.dispose()
                 }
 
                 mainWindow.drawCanvas(image)
-                sleep(it.sleepTime)
+                sleep(sleepTime)
             }
         }
     }
@@ -51,8 +52,8 @@ object DrawerWorker : Thread() {
         g.fillRect(0, 0, ViewUtils.VIEWPORT_WIDTH, ViewUtils.VIEWPORT_HEIGHT)
     }
 
-    private fun renderGame(g: Graphics2D) {
-        RootScene.draw(g)
+    private fun renderGame(g: Graphics2D, ctx: RenderContext) {
+        RootScene.draw(g, ctx)
     }
 
     private fun renderFps(g: Graphics2D) {

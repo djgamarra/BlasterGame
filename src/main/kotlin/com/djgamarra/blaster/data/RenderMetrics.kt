@@ -26,10 +26,10 @@ object RenderMetrics {
         frameEnd = now
     }
 
-    fun measureFrame(block: (it: RenderMetrics) -> Unit) {
+    fun startFrame(block: RenderMetrics.(ctx: RenderContext) -> Unit) {
         frameStart = System.nanoTime()
 
-        block(this)
+        this.block(RenderContext(frameStart))
 
         frameEnd = System.nanoTime()
         frameCount = (frameCount + 1) % ViewUtils.MAX_FPS_COUNT

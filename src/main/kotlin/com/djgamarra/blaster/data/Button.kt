@@ -1,5 +1,6 @@
 package com.djgamarra.blaster.data
 
+import com.djgamarra.blaster.scenes.Scene
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.BasicStroke
 import java.awt.Color
@@ -14,7 +15,7 @@ class Button(
     private val y: Int = ViewUtils.spacing(),
 
     private val onClick: (() -> Unit)? = null,
-) {
+) : Scene() {
     private val height = fontSize.toInt() + ViewUtils.spacing(2)
     private var width = 0
 
@@ -24,17 +25,17 @@ class Button(
     private var rendered = false
     private var hovered = false
 
-    fun mouseMoved(e: MouseEvent) {
+    override fun mouseMoved(e: MouseEvent) {
         hovered = e.x >= x && e.x < x + width && e.y >= y && e.y < y + height
     }
 
-    fun mouseClicked(e: MouseEvent) {
+    override fun mouseClicked(e: MouseEvent) {
         if (e.x >= x && e.x < x + width && e.y >= y && e.y < y + height) {
             onClick?.invoke()
         }
     }
 
-    fun draw(g: Graphics2D) {
+    override fun draw(g: Graphics2D, ctx: RenderContext) {
         g.font = ViewUtils.DEFAULT_FONT.deriveFont(fontSize)
 
         if (!rendered) {

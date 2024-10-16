@@ -1,11 +1,12 @@
 package com.djgamarra.blaster.data
 
+import com.djgamarra.blaster.scenes.Scene
 import com.djgamarra.blaster.views.ViewUtils
 import java.awt.Graphics2D
 import kotlin.math.max
 import kotlin.math.min
 
-class Player {
+class Player : Scene() {
     var x = ViewUtils.VIEWPORT_WIDTH / 2 - WIDTH / 2
         private set
     private val y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - ViewUtils.spacing()
@@ -14,7 +15,7 @@ class Player {
         this.x = min(max(x, CONSTRAINT_START), CONSTRAINT_END)
     }
 
-    fun draw(g: Graphics2D) {
+    override fun draw(g: Graphics2D, ctx: RenderContext) {
         g.drawImage(IMAGE, x, y, null)
     }
 
