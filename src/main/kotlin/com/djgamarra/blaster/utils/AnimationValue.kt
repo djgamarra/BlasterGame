@@ -5,8 +5,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class AnimationValue(
-    private val initialValue: Int,
-    private val finalValue: Int,
+    private var initialValue: Int,
+    private var finalValue: Int,
     private val duration: Int,
 ) {
     private var startTime = System.nanoTime()
@@ -38,6 +38,17 @@ class AnimationValue(
 
     fun start() {
         synchronized(this) {
+            enabled = true
+            startTime = System.nanoTime()
+            cachedValue = initialValue
+        }
+    }
+
+    fun start(initialValue: Int, finalValue: Int) {
+        synchronized(this) {
+            this.initialValue = initialValue
+            this.finalValue = finalValue
+
             enabled = true
             startTime = System.nanoTime()
             cachedValue = initialValue
