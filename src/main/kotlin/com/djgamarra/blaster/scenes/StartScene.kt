@@ -7,14 +7,15 @@ import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
-class StartScene : Scene() {
-    private val background = StartBackground()
+class StartScene(private val background: StartBackground = StartBackground()) : Scene() {
     private val buttons = buildList {
         var y = ViewUtils.VIEWPORT_HEIGHT - 50 - ViewUtils.spacing()
-        add(0, Button("SETTINGS", y = y, onClick = {}))
+        add(Button("SETTINGS", y = y, onClick = {
+            RootScene.changeScene(SettingsScene(background))
+        }))
 
         y -= 50 + ViewUtils.spacing(0.5F)
-        add(0, Button("START NEW GAME", y = y, onClick = {
+        add(Button("START NEW GAME", y = y, onClick = {
             RootScene.changeScene(GameScene())
         }))
     }

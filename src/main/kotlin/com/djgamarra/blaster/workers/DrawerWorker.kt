@@ -42,7 +42,6 @@ object DrawerWorker : Thread() {
                 }
 
                 mainWindow.drawCanvas(image)
-                sleep(sleepTime)
             }
         }
     }

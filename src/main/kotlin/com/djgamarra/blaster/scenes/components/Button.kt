@@ -15,24 +15,30 @@ class Button(
     private val x: Int = ViewUtils.spacing(),
     private val y: Int = ViewUtils.spacing(),
 
-    private val onClick: (() -> Unit)? = null,
+    private val onClick: (Button.() -> Unit)? = null,
+
+    var active: Boolean = false
 ) : Scene() {
-    private val height = fontSize.toInt() + ViewUtils.spacing(2)
-    private var width = 0
+    private var width: Int = 0
+    private var height: Int = 0
 
     private val fontX = x + ViewUtils.spacing()
-    private val fontY = (y + fontSize).toInt() + ViewUtils.spacing() - 3
+    private val fontY = (y + fontSize).toInt() + ViewUtils.spacing()
 
     private var rendered = false
-    private var hovered = false
+    private var hovered = active
 
     override fun mouseMoved(e: MouseEvent) {
+        if (active) {
+            return
+        }
+
         hovered = e.x >= x && e.x < x + width && e.y >= y && e.y < y + height
     }
 
     override fun mouseClicked(e: MouseEvent) {
         if (e.x >= x && e.x < x + width && e.y >= y && e.y < y + height) {
-            onClick?.invoke()
+            onClick?.invoke(this)
         }
     }
 
@@ -57,7 +63,10 @@ class Button(
 
     private fun onFirstRender(g: Graphics2D) {
         g.fontMetrics.let {
-            width = it.stringWidth(label) + ViewUtils.spacing(2)
+            val bounds = it.getStringBounds(label, g)
+
+            width = bounds.width.toInt() + ViewUtils.spacing(2)
+            height = bounds.height.toInt() + ViewUtils.spacing(2)
         }
 
         rendered = true
