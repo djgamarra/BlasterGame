@@ -9,27 +9,33 @@ import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
 class SettingsScene(private val background: StartBackground) : Scene() {
-    private val buttons = buildList {
-        add(Button("BACK", y = ViewUtils.VIEWPORT_HEIGHT - 50 - ViewUtils.spacing(), onClick = {
-            RootScene.changeScene(StartScene(background))
-        }))
+    private var currentFps = Settings.fps
 
-        add(Button("FPS", y = 50 + ViewUtils.spacing(), active = true))
-
+    private val fpsButtons = buildMap {
         val spacing = 150
-        add(Button("30", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing(), onClick = {
-            Settings.fps = 30L
+
+        put(30L, Button("30", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing(), onClick = {
+            changeFps(30L)
         }))
-        add(Button("60", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 80, onClick = {
-            Settings.fps = 60L
+        put(60L, Button("60", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 80, onClick = {
+            changeFps(60L)
         }))
-        add(Button("120", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 160, onClick = {
-            Settings.fps = 120L
+        put(120L, Button("120", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 160, onClick = {
+            changeFps(120L)
         }))
-        add(Button("144", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 253, onClick = {
-            Settings.fps = 144L
+        put(144L, Button("144", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 253, onClick = {
+            changeFps(144L)
         }))
     }
+
+    init {
+        changeFps(Settings.fps)
+    }
+
+    private val buttons =
+        fpsButtons.values + Button("BACK", y = ViewUtils.VIEWPORT_HEIGHT - 50 - ViewUtils.spacing(), onClick = {
+            RootScene.changeScene(StartScene(background))
+        }) + Button("FPS", y = 50 + ViewUtils.spacing(), active = true)
 
     override fun mouseMoved(e: MouseEvent) {
         background.mouseMoved(e)
@@ -43,5 +49,12 @@ class SettingsScene(private val background: StartBackground) : Scene() {
     override fun draw(g: Graphics2D, ctx: RenderContext) {
         background.draw(g, ctx)
         buttons.forEach { it.draw(g, ctx) }
+    }
+
+    private fun changeFps(fps: Long) {
+        fpsButtons[currentFps]?.active = false
+        Settings.fps = fps
+        currentFps = fps
+        fpsButtons[Settings.fps]?.active = true
     }
 }

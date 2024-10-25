@@ -26,7 +26,6 @@ class GameScene : Scene() {
     }
 
     override fun draw(g: Graphics2D, ctx: RenderContext) {
-        println(projectiles.size)
         projectiles.forEach { it.draw(g, ctx) }
         opponents.forEach { it.draw(g, ctx) }
         player.draw(g, ctx)

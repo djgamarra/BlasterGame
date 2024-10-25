@@ -50,7 +50,7 @@ class Button(
         }
 
         g.color = Color.WHITE
-        if (hovered) {
+        if (hovered or active) {
             g.fillRect(x, y, width, height)
             g.color = ViewUtils.GAME_BACKGROUND_COLOR
         } else {
