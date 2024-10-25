@@ -34,9 +34,8 @@ object Settings {
 
         FileInputStream(CONFIG_FILE_NAME).use { fileStream ->
             propertiesFile.load(fileStream)
+            fps = propertiesFile.getProperty(FPS_CONFIG_KEY)?.toLongOrNull() ?: fps
         }
-
-        fps = propertiesFile.getProperty(FPS_CONFIG_KEY)?.toLongOrNull() ?: fps
     }
 
     private fun storeConfig() {
