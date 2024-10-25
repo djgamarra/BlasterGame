@@ -35,7 +35,7 @@ class MainWindow : JFrame() {
         add(canvas)
         pack()
 
-        canvas.createBufferStrategy(3)
+        canvas.createBufferStrategy(2)
         strategy = canvas.bufferStrategy
     }
 

@@ -8,6 +8,7 @@ class AnimationValue(
     private var initialValue: Int,
     private var finalValue: Int,
     private val duration: Int,
+    private val onAnimationEnded: (() -> Unit)? = null
 ) {
     private var startTime = System.nanoTime()
     private val reversed = initialValue < finalValue
@@ -30,6 +31,7 @@ class AnimationValue(
 
             if (cachedValue == finalValue) {
                 enabled = false
+                onAnimationEnded?.invoke()
             }
         }
 

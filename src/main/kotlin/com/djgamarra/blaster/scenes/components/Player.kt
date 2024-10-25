@@ -13,7 +13,7 @@ class Player : Scene() {
     private val y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - ViewUtils.spacing()
 
     fun moveTo(x: Int) {
-        this.x = min(max(x, CONSTRAINT_START), CONSTRAINT_END)
+        this.x = min(max(x - WIDTH / 2, CONSTRAINT_START), CONSTRAINT_END)
     }
 
     override fun draw(g: Graphics2D, ctx: RenderContext) {

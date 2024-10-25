@@ -26,8 +26,8 @@ class SettingsScene(private val background: StartBackground) : Scene() {
         add(Button("120", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 160, onClick = {
             Settings.fps = 120L
         }))
-        add(Button("300", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 253, onClick = {
-            Settings.fps = 300L
+        add(Button("144", y = 50 + ViewUtils.spacing(), x = spacing + ViewUtils.spacing() + 253, onClick = {
+            Settings.fps = 144L
         }))
     }
 
