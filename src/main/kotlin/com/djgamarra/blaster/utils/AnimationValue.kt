@@ -8,10 +8,10 @@ class AnimationValue(
     private var initialValue: Int,
     private var finalValue: Int,
     private val duration: Int,
-    private val onAnimationEnded: (() -> Unit)? = null
+    private val onAnimationEnded: (AnimationValue.() -> Unit)? = null
 ) {
     private var startTime = System.nanoTime()
-    private val reversed = initialValue < finalValue
+    private var reversed = initialValue < finalValue
     private var cachedValue: Int = initialValue
     var enabled = false
         private set
@@ -31,7 +31,7 @@ class AnimationValue(
 
             if (cachedValue == finalValue) {
                 enabled = false
-                onAnimationEnded?.invoke()
+                this.onAnimationEnded?.invoke(this)
             }
         }
 
@@ -50,6 +50,7 @@ class AnimationValue(
         synchronized(this) {
             this.initialValue = initialValue
             this.finalValue = finalValue
+            reversed = initialValue < finalValue
 
             enabled = true
             startTime = System.nanoTime()

@@ -11,7 +11,7 @@ class Projectile(playerX: Int, onDeath: Projectile.() -> Unit) : Scene() {
     private val x = playerX + Player.WIDTH / 2 - WIDTH / 2
     private val y = AnimationValue(
         ViewUtils.VIEWPORT_HEIGHT - HEIGHT - Player.HEIGHT, CONSTRAINT_END, ANIMATION_DURATION, onAnimationEnded = {
-            this.onDeath()
+            this@Projectile.onDeath()
         }
     ).apply { start() }
 
