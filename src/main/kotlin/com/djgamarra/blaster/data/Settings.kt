@@ -31,16 +31,11 @@ object Settings {
 
     private fun loadInitialConfig() {
         initializeConfigFileIfNecessary()
-
-        FileInputStream(CONFIG_FILE_NAME).use { fileStream ->
-            propertiesFile.load(fileStream)
-            fps = propertiesFile.getProperty(FPS_CONFIG_KEY)?.toLongOrNull() ?: fps
-        }
+        FileInputStream(CONFIG_FILE_NAME).use { propertiesFile.load(it) }
+        fps = propertiesFile.getProperty(FPS_CONFIG_KEY)?.toLongOrNull() ?: fps
     }
 
     private fun storeConfig() {
-        FileOutputStream(CONFIG_FILE_NAME).use { fileStream ->
-            propertiesFile.store(fileStream, null)
-        }
+        FileOutputStream(CONFIG_FILE_NAME).use { propertiesFile.store(it, null) }
     }
 }
