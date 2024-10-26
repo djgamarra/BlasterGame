@@ -5,23 +5,27 @@ import kotlin.math.max
 import kotlin.math.min
 
 class AnimationValue(
-    private var initialValue: Int,
-    private var finalValue: Int,
-    private val duration: Int,
+    initialValueN: Number,
+    finalValueN: Number,
+    durationN: Number,
+
+    private val easeFunction: EaseFunction,
     private val onAnimationEnded: (AnimationValue.() -> Unit)? = null
 ) {
-    private var startTime = System.nanoTime()
-    private var reversed = initialValue < finalValue
-    private var cachedValue: Int = initialValue
-    var enabled = false
-        private set
+    private var initialValue = initialValueN.toDouble()
+    private var finalValue = finalValueN.toDouble()
+    private val duration = durationN.toDouble()
 
-    fun valueFor(ctx: RenderContext): Int {
+    private var startTime = System.nanoTime()
+    private var delta = finalValue - initialValue
+    private var reversed = initialValue < finalValue
+    private var cachedValue = initialValue
+    private var enabled = false
+
+    fun valueFor(ctx: RenderContext): Double {
         if (enabled) {
-            val elapsedTime = min(
-                ((ctx.renderTime - startTime) / MathUtils.MS_IN_NS).toInt(), duration
-            ).toFloat()
-            val newValue = (initialValue + (elapsedTime / duration) * (finalValue - initialValue)).toInt()
+            val progress = min(((ctx.renderTime - startTime) / MathUtils.MS_IN_NS).toDouble(), duration) / duration
+            val newValue = easeFunction.getValue(initialValue, delta, progress)
 
             cachedValue = if (reversed) {
                 min(finalValue, newValue)
@@ -30,7 +34,7 @@ class AnimationValue(
             }
 
             if (cachedValue == finalValue) {
-                enabled = false
+                stopAnimation()
                 this.onAnimationEnded?.invoke(this)
             }
         }
@@ -38,23 +42,49 @@ class AnimationValue(
         return cachedValue
     }
 
+    fun intValueFor(ctx: RenderContext): Int {
+        return valueFor(ctx).toInt()
+    }
+
     fun start() {
         synchronized(this) {
-            enabled = true
-            startTime = System.nanoTime()
-            cachedValue = initialValue
+            startAnimation()
         }
     }
 
-    fun start(initialValue: Int, finalValue: Int) {
+    fun startReverse() {
         synchronized(this) {
-            this.initialValue = initialValue
-            this.finalValue = finalValue
-            reversed = initialValue < finalValue
+            val tempInitialValue = initialValue
+            initialValue = finalValue
+            finalValue = tempInitialValue
 
-            enabled = true
-            startTime = System.nanoTime()
-            cachedValue = initialValue
+            reversed = !reversed
+            delta = -delta
+
+            startAnimation()
         }
+    }
+
+    fun startFromCurrent() {
+        synchronized(this) {
+            stopAnimation()
+
+            val delta = finalValue - initialValue
+
+            initialValue = cachedValue
+            finalValue = cachedValue + delta
+
+            startAnimation()
+        }
+    }
+
+    private fun startAnimation() {
+        enabled = true
+        startTime = System.nanoTime()
+        cachedValue = initialValue
+    }
+
+    private fun stopAnimation() {
+        enabled = false
     }
 }

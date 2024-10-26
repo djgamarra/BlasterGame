@@ -14,20 +14,16 @@ class GameScene : Scene() {
 
     private val projectilesTickCounter = TickCounter(20)
     private var projectiles = listOf<Projectile>()
-    private var opponents = buildList {
-        var image = 0
 
-        for (i in 0..3) {
-            for (j in 0..14) {
-                add(
-                    Opponent(
-                        image % 3,
-                        ViewUtils.spacing(1) + j * (ViewUtils.spacing(1) + Opponent.WIDTH),
-                        ViewUtils.spacing(1) + i * (ViewUtils.spacing(1) + Opponent.HEIGHT)
-                    )
+    private var opponentImage = 1
+    private var opponents = buildList {
+        for (j in 0..<OPPONENTS_NUMBER) {
+            add(
+                Opponent(
+                    0, ViewUtils.spacing(1) + j * (ViewUtils.spacing(1) + Opponent.WIDTH), ViewUtils.spacing(1)
+//                            + i * (ViewUtils.spacing(1) + Opponent.HEIGHT)
                 )
-            }
-            image++
+            )
         }
     }
 
@@ -59,5 +55,9 @@ class GameScene : Scene() {
         synchronized(projectiles) {
             projectiles = projectiles.filter { it != projectile }
         }
+    }
+
+    companion object {
+        private const val OPPONENTS_NUMBER = 15
     }
 }
