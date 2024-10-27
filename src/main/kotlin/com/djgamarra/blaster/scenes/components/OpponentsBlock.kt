@@ -45,6 +45,10 @@ class OpponentsBlock : Scene() {
 
     private fun addOpponentsRow() {
         synchronized(opponents) {
+            if (opponentsRow == 9) {
+                return
+            }
+
             opponents = buildList {
                 addAll(opponents)
 
