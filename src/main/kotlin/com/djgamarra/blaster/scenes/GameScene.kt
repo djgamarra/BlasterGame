@@ -1,11 +1,10 @@
 package com.djgamarra.blaster.scenes
 
 import com.djgamarra.blaster.data.RenderContext
-import com.djgamarra.blaster.scenes.components.Opponent
+import com.djgamarra.blaster.scenes.components.OpponentsBlock
 import com.djgamarra.blaster.scenes.components.Player
 import com.djgamarra.blaster.scenes.components.Projectile
 import com.djgamarra.blaster.utils.TickCounter
-import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
@@ -14,18 +13,7 @@ class GameScene : Scene() {
 
     private val projectilesTickCounter = TickCounter(20)
     private var projectiles = listOf<Projectile>()
-
-    private var opponentImage = 1
-    private var opponents = buildList {
-        for (j in 0..<OPPONENTS_NUMBER) {
-            add(
-                Opponent(
-                    0, ViewUtils.spacing(1) + j * (ViewUtils.spacing(1) + Opponent.WIDTH), ViewUtils.spacing(1)
-//                            + i * (ViewUtils.spacing(1) + Opponent.HEIGHT)
-                )
-            )
-        }
-    }
+    private val opponentsBlock = OpponentsBlock()
 
     override fun mouseMoved(e: MouseEvent) {
         player.moveTo(e.x)
@@ -35,11 +23,13 @@ class GameScene : Scene() {
         if (projectilesTickCounter.tick()) {
             shoot()
         }
+
+        opponentsBlock.tick()
     }
 
     override fun draw(g: Graphics2D, ctx: RenderContext) {
         projectiles.forEach { it.draw(g, ctx) }
-        opponents.forEach { it.draw(g, ctx) }
+        opponentsBlock.draw(g, ctx)
         player.draw(g, ctx)
     }
 
@@ -51,9 +41,5 @@ class GameScene : Scene() {
 
     private fun removeProjectile(projectile: Projectile) = synchronized(projectiles) {
         projectiles = projectiles.filter { it != projectile }
-    }
-
-    companion object {
-        private const val OPPONENTS_NUMBER = 15
     }
 }
