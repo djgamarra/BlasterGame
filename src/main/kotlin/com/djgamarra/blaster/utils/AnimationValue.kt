@@ -22,7 +22,7 @@ class AnimationValue(
     private var cachedValue = initialValue
     private var enabled = false
 
-    fun valueFor(ctx: RenderContext): Double {
+    private fun valueFor(ctx: RenderContext): Double {
         if (enabled) {
             val progress = min(((ctx.renderTime - startTime) / MathUtils.MS_IN_NS).toDouble(), duration) / duration
             val newValue = easeFunction.getValue(initialValue, delta, progress)
@@ -42,40 +42,32 @@ class AnimationValue(
         return cachedValue
     }
 
-    fun intValueFor(ctx: RenderContext): Int {
-        return valueFor(ctx).toInt()
+    fun intValueFor(ctx: RenderContext): Int = valueFor(ctx).toInt()
+
+    fun start() = synchronized(this) {
+        startAnimation()
     }
 
-    fun start() {
-        synchronized(this) {
-            startAnimation()
-        }
+    fun startReverse() = synchronized(this) {
+        val tempInitialValue = initialValue
+        initialValue = finalValue
+        finalValue = tempInitialValue
+
+        reversed = !reversed
+        delta = -delta
+
+        startAnimation()
     }
 
-    fun startReverse() {
-        synchronized(this) {
-            val tempInitialValue = initialValue
-            initialValue = finalValue
-            finalValue = tempInitialValue
+    fun startFromCurrent() = synchronized(this) {
+        stopAnimation()
 
-            reversed = !reversed
-            delta = -delta
+        val delta = finalValue - initialValue
 
-            startAnimation()
-        }
-    }
+        initialValue = cachedValue
+        finalValue = cachedValue + delta
 
-    fun startFromCurrent() {
-        synchronized(this) {
-            stopAnimation()
-
-            val delta = finalValue - initialValue
-
-            initialValue = cachedValue
-            finalValue = cachedValue + delta
-
-            startAnimation()
-        }
+        startAnimation()
     }
 
     private fun startAnimation() {

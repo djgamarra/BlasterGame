@@ -25,9 +25,7 @@ object RootScene : Scene() {
         currentScene.draw(g, ctx)
     }
 
-    fun changeScene(scene: Scene) {
-        synchronized(currentScene) {
-            currentScene = scene
-        }
+    fun changeScene(scene: Scene) = synchronized(currentScene) {
+        currentScene = scene
     }
 }

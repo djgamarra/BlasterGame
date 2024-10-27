@@ -43,18 +43,14 @@ class GameScene : Scene() {
         player.draw(g, ctx)
     }
 
-    private fun shoot() {
-        synchronized(projectiles) {
-            projectiles += Projectile(player.x, onDeath = {
-                removeProjectile(this)
-            })
-        }
+    private fun shoot() = synchronized(projectiles) {
+        projectiles += Projectile(player.x, onDeath = {
+            removeProjectile(this)
+        })
     }
 
-    private fun removeProjectile(projectile: Projectile) {
-        synchronized(projectiles) {
-            projectiles = projectiles.filter { it != projectile }
-        }
+    private fun removeProjectile(projectile: Projectile) = synchronized(projectiles) {
+        projectiles = projectiles.filter { it != projectile }
     }
 
     companion object {
