@@ -5,6 +5,7 @@ import com.djgamarra.blaster.scenes.Scene
 import com.djgamarra.blaster.utils.AnimationValue
 import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
+import java.awt.Rectangle
 
 class Opponent(
     imageNumber: Int,
@@ -14,10 +15,20 @@ class Opponent(
     private val yAnimation: AnimationValue,
 ) : Scene() {
     private val image = IMAGES[imageNumber]
+    private val bounds: Rectangle
+        get() = Rectangle(getX(), getY(), WIDTH, HEIGHT)
 
     override fun draw(g: Graphics2D, ctx: RenderContext) {
-        g.drawImage(image, initialX + xAnimation.intValueFor(ctx), initialY + yAnimation.intValueFor(ctx), null)
+        g.drawImage(image, getX(ctx), getY(ctx), null)
     }
+
+    fun checkCollision(projectile: Projectile): Boolean {
+        return bounds.intersects(projectile.bounds)
+    }
+
+    private fun getX(ctx: RenderContext? = null) = initialX + xAnimation.getIntValue(ctx)
+
+    private fun getY(ctx: RenderContext? = null) = initialY + yAnimation.getIntValue(ctx)
 
     companion object {
         private val IMAGES = arrayOf(

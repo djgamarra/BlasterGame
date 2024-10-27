@@ -11,14 +11,14 @@ import java.awt.Graphics2D
 class OpponentsBlock : Scene() {
     private val xAnimation = AnimationValue(
         0,
-        CONSTRAINT_X_END,
+        X_ANIMATION_CONSTRAINT_END,
         ANIMATION_DURATION,
         EaseFunction.IN_OUT,
         onAnimationEnded = { startReverse() }
     ).apply { start() }
     private val yAnimation = AnimationValue(
         0,
-        CONSTRAINT_Y_END,
+        Y_ANIMATION_CONSTRAINT_END,
         ANIMATION_DURATION,
         EaseFunction.IN_OUT
     )
@@ -26,7 +26,8 @@ class OpponentsBlock : Scene() {
     private val opponentsTickCounter = TickCounter(200)
 
     private var opponentsRow = 0
-    private var opponents = listOf<Opponent>()
+    var opponents = listOf<Opponent>()
+        private set
 
     init {
         addOpponentsRow()
@@ -43,37 +44,36 @@ class OpponentsBlock : Scene() {
         }
     }
 
-    private fun addOpponentsRow() {
-        synchronized(opponents) {
-            if (opponentsRow == 9) {
-                return
-            }
-
-            opponents = buildList {
-                addAll(opponents)
-
-                for (j in 0..<OPPONENTS_NUMBER) {
-                    add(
-                        Opponent(
-                            opponentsRow % 3,
-                            ViewUtils.spacing(1) + j * (ViewUtils.spacing(1) + Opponent.WIDTH),
-                            ViewUtils.spacing(1) - opponentsRow * (ViewUtils.spacing(1) + Opponent.HEIGHT),
-                            xAnimation,
-                            yAnimation
-                        )
-                    )
-                }
-            }
-
-            opponentsRow++
+    private fun addOpponentsRow(): Unit = synchronized(opponents) {
+        if (opponentsRow == 9) {
+            return
         }
+
+        opponents = buildList {
+            addAll(opponents)
+
+            for (j in 0..<OPPONENTS_NUMBER) {
+                add(
+                    Opponent(
+                        opponentsRow % 3,
+                        ViewUtils.spacing(1) + j * (ViewUtils.spacing(1) + Opponent.WIDTH),
+                        ViewUtils.spacing(1) - opponentsRow * (ViewUtils.spacing(1) + Opponent.HEIGHT),
+                        xAnimation,
+                        yAnimation
+                    )
+                )
+            }
+        }
+
+        opponentsRow++
     }
+
 
     companion object {
         private const val OPPONENTS_NUMBER = 15
 
-        private val CONSTRAINT_X_END = (ViewUtils.spacing(1) + Opponent.WIDTH) * 3 - ViewUtils.spacing(1)
-        private val CONSTRAINT_Y_END = ViewUtils.spacing(1) + Opponent.HEIGHT
+        private val X_ANIMATION_CONSTRAINT_END = (ViewUtils.spacing(1) + Opponent.WIDTH) * 3 - ViewUtils.spacing(1)
+        private val Y_ANIMATION_CONSTRAINT_END = ViewUtils.spacing(1) + Opponent.HEIGHT
 
         private const val ANIMATION_DURATION = 1000
     }

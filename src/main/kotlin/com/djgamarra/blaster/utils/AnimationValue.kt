@@ -22,8 +22,8 @@ class AnimationValue(
     private var cachedValue = initialValue
     private var enabled = false
 
-    private fun valueFor(ctx: RenderContext): Double {
-        if (enabled) {
+    private fun getValue(ctx: RenderContext?): Double {
+        if (enabled && ctx != null) {
             val progress = min(((ctx.renderTime - startTime) / MathUtils.MS_IN_NS).toDouble(), duration) / duration
             val newValue = easeFunction.getValue(initialValue, delta, progress)
 
@@ -42,7 +42,7 @@ class AnimationValue(
         return cachedValue
     }
 
-    fun intValueFor(ctx: RenderContext): Int = valueFor(ctx).toInt()
+    fun getIntValue(ctx: RenderContext?): Int = getValue(ctx).toInt()
 
     fun start() = synchronized(this) {
         startAnimation()

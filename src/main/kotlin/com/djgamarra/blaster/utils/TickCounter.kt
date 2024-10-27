@@ -8,4 +8,8 @@ class TickCounter(private val maxTicks: Int) {
 
         return tickCounter == 0
     }
+
+    fun reset() {
+        tickCounter = 1
+    }
 }
