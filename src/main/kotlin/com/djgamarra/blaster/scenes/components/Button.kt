@@ -9,7 +9,7 @@ import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
 class Button(
-    private val label: String,
+    var label: String,
     private val fontSize: Float = 25F,
 
     private val x: Int = ViewUtils.spacing(),

@@ -18,8 +18,10 @@ class GameScene : Scene() {
             RootScene.changeScene(StartScene())
         })
     private val gameOverLabel = Button("Game Over", fontSize = 50F, active = true, x = 0, y = 0)
+    private val endPointsLabel = Button("Points: 0", fontSize = 30F, active = true, x = 0, y = 60)
 
     private var dead = false
+    private var points = 0
 
     override fun mouseClicked(e: MouseEvent) {
         exitButton.mouseClicked(e)
@@ -51,8 +53,12 @@ class GameScene : Scene() {
         opponentsBlock.draw(g, ctx)
         exitButton.draw(g, ctx)
 
+        g.font = ViewUtils.DEFAULT_FONT.deriveFont(20F)
+        g.drawString("$points", ViewUtils.spacing(1), ViewUtils.spacing(1) + 20)
+
         if (dead) {
             gameOverLabel.draw(g, ctx)
+            endPointsLabel.draw(g, ctx)
         }
     }
 
@@ -68,11 +74,13 @@ class GameScene : Scene() {
             if (collidingProjectile != null) {
                 player.removeProjectile(collidingProjectile)
                 opponentsBlock.removeOpponent(opponent)
+                points++
             }
         }
     }
 
     private fun gameOver() {
+        endPointsLabel.label = "Points: $points"
         dead = true
         opponentsBlock.gameOver()
     }
