@@ -36,7 +36,7 @@ object DrawerWorker : Thread() {
                 drawingGraphics.let { g ->
                     renderBackground(g)
                     renderGame(g, ctx)
-                    renderFps(g)
+//                    renderFps(g)
 
                     g.dispose()
                 }
@@ -55,9 +55,9 @@ object DrawerWorker : Thread() {
         RootScene.draw(g, ctx)
     }
 
-    private fun renderFps(g: Graphics2D) {
-        g.color = Color.WHITE
-        g.font = ViewUtils.DEFAULT_FONT.deriveFont(12F)
-        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 12)
-    }
+//    private fun renderFps(g: Graphics2D) {
+//        g.color = Color.WHITE
+//        g.font = ViewUtils.DEFAULT_FONT.deriveFont(12F)
+//        g.drawString("${RenderMetrics.currentFps} FPS", ViewUtils.spacing(), ViewUtils.spacing() + 12)
+//    }
 }
