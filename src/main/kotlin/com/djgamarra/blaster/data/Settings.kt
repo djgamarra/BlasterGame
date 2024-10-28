@@ -18,8 +18,11 @@ object Settings {
     private const val CONFIG_FILE_NAME = "config.properties"
     private const val FPS_CONFIG_KEY = "fps"
 
+    private var syncEnabled = false
+
     init {
         loadInitialConfig()
+        syncEnabled = true
     }
 
     private fun initializeConfigFileIfNecessary() {
@@ -36,6 +39,8 @@ object Settings {
     }
 
     private fun storeConfig() {
-        FileOutputStream(CONFIG_FILE_NAME).use { propertiesFile.store(it, null) }
+        if (syncEnabled) {
+            FileOutputStream(CONFIG_FILE_NAME).use { propertiesFile.store(it, null) }
+        }
     }
 }
