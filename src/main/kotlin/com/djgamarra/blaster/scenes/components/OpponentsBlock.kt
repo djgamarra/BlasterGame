@@ -94,6 +94,6 @@ class OpponentsBlock : Scene() {
 
         private const val ANIMATION_DURATION = 1000
 
-        private const val NEW_OPPONENTS_ROW_TICK = 300
+        private const val NEW_OPPONENTS_ROW_TICK = 30
     }
 }

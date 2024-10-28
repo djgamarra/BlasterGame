@@ -9,28 +9,19 @@ import java.awt.event.MouseEvent
 import kotlin.math.max
 import kotlin.math.min
 
-class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
+class Player : Scene() {
     private var x = ViewUtils.VIEWPORT_WIDTH / 2 - WIDTH / 2
-    private val y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - ViewUtils.spacing()
+    val y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - ViewUtils.spacing()
 
     private val projectilesTickCounter = TickCounter(15)
-    private var projectiles = listOf<Projectile>()
-
-    private var dead = false
+    var projectiles = listOf<Projectile>()
+        private set
 
     override fun mouseMoved(e: MouseEvent) {
-        if (!dead) {
-            moveTo(e.x)
-        }
+        moveTo(e.x)
     }
 
     override fun tick() {
-        if (dead) {
-            return
-        }
-
-        checkCollisions()
-
         if (projectilesTickCounter.tick()) {
             shoot()
         }
@@ -41,32 +32,11 @@ class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
         g.drawImage(IMAGE, x, y, null)
     }
 
-    private fun checkCollisions() {
-        opponentsBlock.opponents.forEach { opponent ->
-            if (opponent.getY() + Opponent.HEIGHT >= y) {
-                gameOver()
-                return
-            }
-
-            val collidingProjectile = projectiles.find { projectile -> opponent.checkCollision(projectile) }
-
-            if (collidingProjectile != null) {
-                removeProjectile(collidingProjectile)
-                opponentsBlock.removeOpponent(opponent)
-            }
-        }
-    }
-
-    private fun gameOver() {
-        opponentsBlock.gameOver()
-        dead = true
-    }
-
     private fun shoot() = synchronized(projectiles) {
         projectiles += Projectile(x, onDeath = { removeProjectile(this) })
     }
 
-    private fun removeProjectile(projectile: Projectile) = synchronized(projectiles) {
+    fun removeProjectile(projectile: Projectile) = synchronized(projectiles) {
         projectiles = projectiles.filter { it != projectile }
     }
 
