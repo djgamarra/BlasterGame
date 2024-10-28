@@ -20,7 +20,7 @@ class AnimationValue(
     private var delta = finalValue - initialValue
     private var reversed = initialValue < finalValue
     private var cachedValue = initialValue
-    private var enabled = false
+    var enabled = false
 
     private fun getValue(ctx: RenderContext?): Double {
         if (enabled && ctx != null) {

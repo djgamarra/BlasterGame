@@ -5,6 +5,7 @@ import com.djgamarra.blaster.scenes.Scene
 import com.djgamarra.blaster.utils.TickCounter
 import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
+import java.awt.event.MouseEvent
 import kotlin.math.max
 import kotlin.math.min
 
@@ -12,14 +13,22 @@ class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
     private var x = ViewUtils.VIEWPORT_WIDTH / 2 - WIDTH / 2
     private val y = ViewUtils.VIEWPORT_HEIGHT - HEIGHT - ViewUtils.spacing()
 
-    private val projectilesTickCounter = TickCounter(20)
+    private val projectilesTickCounter = TickCounter(15)
     private var projectiles = listOf<Projectile>()
 
-    fun moveTo(x: Int) {
-        this.x = min(max(x - WIDTH / 2, CONSTRAINT_START), CONSTRAINT_END)
+    private var dead = false
+
+    override fun mouseMoved(e: MouseEvent) {
+        if (!dead) {
+            moveTo(e.x)
+        }
     }
 
     override fun tick() {
+        if (dead) {
+            return
+        }
+
         checkCollisions()
 
         if (projectilesTickCounter.tick()) {
@@ -34,6 +43,11 @@ class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
 
     private fun checkCollisions() {
         opponentsBlock.opponents.forEach { opponent ->
+            if (opponent.getY() + Opponent.HEIGHT >= y) {
+                gameOver()
+                return
+            }
+
             val collidingProjectile = projectiles.find { projectile -> opponent.checkCollision(projectile) }
 
             if (collidingProjectile != null) {
@@ -43,12 +57,21 @@ class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
         }
     }
 
+    private fun gameOver() {
+        opponentsBlock.gameOver()
+        dead = true
+    }
+
     private fun shoot() = synchronized(projectiles) {
         projectiles += Projectile(x, onDeath = { removeProjectile(this) })
     }
 
     private fun removeProjectile(projectile: Projectile) = synchronized(projectiles) {
         projectiles = projectiles.filter { it != projectile }
+    }
+
+    private fun moveTo(x: Int) {
+        this.x = min(max(x - WIDTH / 2, CONSTRAINT_START), CONSTRAINT_END)
     }
 
     companion object {

@@ -7,6 +7,7 @@ import com.djgamarra.blaster.utils.EaseFunction
 import com.djgamarra.blaster.utils.TickCounter
 import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
+import kotlin.math.max
 
 class OpponentsBlock : Scene() {
     private val xAnimation = AnimationValue(
@@ -14,20 +15,26 @@ class OpponentsBlock : Scene() {
         X_ANIMATION_CONSTRAINT_END,
         ANIMATION_DURATION,
         EaseFunction.IN_OUT,
-        onAnimationEnded = { startReverse() }
+        onAnimationEnded = {
+            if (!gameFinished) {
+                startReverse()
+            }
+        }
     ).apply { start() }
     private val yAnimation = AnimationValue(
         0,
         Y_ANIMATION_CONSTRAINT_END,
-        ANIMATION_DURATION / 4,
+        ANIMATION_DURATION / 5,
         EaseFunction.IN_OUT
     )
 
-    private val opponentsTickCounter = TickCounter(200)
+    private val opponentsTickCounter = TickCounter(NEW_OPPONENTS_ROW_TICK)
 
     private var opponentsRow = 0
     var opponents = listOf<Opponent>()
         private set
+
+    private var gameFinished = false
 
     init {
         addOpponentsRow()
@@ -38,7 +45,11 @@ class OpponentsBlock : Scene() {
     }
 
     override fun tick() {
-        if (opponentsTickCounter.tick()) {
+        if (!gameFinished and opponentsTickCounter.tick()) {
+            opponentsTickCounter.tickCounter -= max(
+                NEW_OPPONENTS_ROW_TICK - opponentsRow * 5,
+                NEW_OPPONENTS_ROW_TICK / 6
+            )
             addOpponentsRow()
             yAnimation.startFromCurrent()
         }
@@ -46,6 +57,13 @@ class OpponentsBlock : Scene() {
 
     fun removeOpponent(opponent: Opponent) = synchronized(opponents) {
         opponents = opponents.filter { it != opponent }
+    }
+
+    fun gameOver() {
+        gameFinished = true
+
+        xAnimation.enabled = false
+        yAnimation.enabled = false
     }
 
     private fun addOpponentsRow(): Unit = synchronized(opponents) {
@@ -75,5 +93,7 @@ class OpponentsBlock : Scene() {
         private val Y_ANIMATION_CONSTRAINT_END = ViewUtils.spacing(1) + Opponent.HEIGHT
 
         private const val ANIMATION_DURATION = 1000
+
+        private const val NEW_OPPONENTS_ROW_TICK = 300
     }
 }

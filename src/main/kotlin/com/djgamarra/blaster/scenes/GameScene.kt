@@ -11,7 +11,7 @@ class GameScene : Scene() {
     private val player = Player(opponentsBlock)
 
     override fun mouseMoved(e: MouseEvent) {
-        player.moveTo(e.x)
+        player.mouseMoved(e)
     }
 
     override fun tick() {

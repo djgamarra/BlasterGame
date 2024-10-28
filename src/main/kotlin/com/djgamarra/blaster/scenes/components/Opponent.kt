@@ -28,7 +28,7 @@ class Opponent(
 
     private fun getX(ctx: RenderContext? = null) = initialX + xAnimation.getIntValue(ctx)
 
-    private fun getY(ctx: RenderContext? = null) = initialY + yAnimation.getIntValue(ctx)
+    fun getY(ctx: RenderContext? = null) = initialY + yAnimation.getIntValue(ctx)
 
     companion object {
         private val IMAGES = arrayOf(
