@@ -19,7 +19,7 @@ class OpponentsBlock : Scene() {
     private val yAnimation = AnimationValue(
         0,
         Y_ANIMATION_CONSTRAINT_END,
-        ANIMATION_DURATION,
+        ANIMATION_DURATION / 4,
         EaseFunction.IN_OUT
     )
 
@@ -44,11 +44,11 @@ class OpponentsBlock : Scene() {
         }
     }
 
-    private fun addOpponentsRow(): Unit = synchronized(opponents) {
-        if (opponentsRow == 9) {
-            return
-        }
+    fun removeOpponent(opponent: Opponent) = synchronized(opponents) {
+        opponents = opponents.filter { it != opponent }
+    }
 
+    private fun addOpponentsRow(): Unit = synchronized(opponents) {
         opponents = buildList {
             addAll(opponents)
 
@@ -67,7 +67,6 @@ class OpponentsBlock : Scene() {
 
         opponentsRow++
     }
-
 
     companion object {
         private const val OPPONENTS_NUMBER = 15

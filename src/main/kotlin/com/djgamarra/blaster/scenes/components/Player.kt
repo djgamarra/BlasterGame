@@ -34,10 +34,11 @@ class Player(private val opponentsBlock: OpponentsBlock) : Scene() {
 
     private fun checkCollisions() {
         opponentsBlock.opponents.forEach { opponent ->
-            projectiles.forEach { projectile ->
-                if (opponent.checkCollision(projectile)) {
-                    removeProjectile(projectile)
-                }
+            val collidingProjectile = projectiles.find { projectile -> opponent.checkCollision(projectile) }
+
+            if (collidingProjectile != null) {
+                removeProjectile(collidingProjectile)
+                opponentsBlock.removeOpponent(opponent)
             }
         }
     }
