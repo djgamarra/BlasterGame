@@ -6,6 +6,7 @@ import com.djgamarra.blaster.scenes.components.Opponent
 import com.djgamarra.blaster.scenes.components.OpponentsBlock
 import com.djgamarra.blaster.scenes.components.Player
 import com.djgamarra.blaster.utils.ViewUtils
+import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
@@ -53,6 +54,7 @@ class GameScene : Scene() {
         opponentsBlock.draw(g, ctx)
         exitButton.draw(g, ctx)
 
+        g.color = Color.WHITE
         g.font = ViewUtils.DEFAULT_FONT.deriveFont(20F)
         g.drawString("$points", ViewUtils.spacing(1), ViewUtils.spacing(1) + 20)
 
