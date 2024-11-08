@@ -31,6 +31,13 @@ The primary goal of this project is to provide a practical example for:
 - `Graphics2D` (basic rendering and simple animation techniques).
 - Multithreading in `Swing` environments.
 
+## Screenshots
+
+![Start screen](/screenshots/start.png?raw=true "Start screen")
+![Settings screen](/screenshots/settings.png?raw=true "Settings screen")
+![Game](/screenshots/game.png?raw=true "Game")
+![Game over screen](/screenshots/game_over.png?raw=true "Game over screen")
+
 ## Requirements
 
 - **Java version**: 21. Use **Oracle JDK** or **GraalVM** for optimal
@@ -62,6 +69,6 @@ _This is my local setup:_
 - _40GB of RAM_
 - _Windows 11 Home_
 
-*My local setup is an Acer Nitro ANV15-51 with an i5-13420H and 40GB of RAM.*
-
 ## License
+
+MIT
