@@ -37,6 +37,7 @@ The primary goal of this project is to provide a practical example for:
 ![Settings screen](/screenshots/settings.png?raw=true "Settings screen")
 ![Game](/screenshots/game.png?raw=true "Game")
 ![Game over screen](/screenshots/game_over.png?raw=true "Game over screen")
+![Demo](/screenshots/demo.gif?raw=true "Demo")
 
 ## Requirements
 
