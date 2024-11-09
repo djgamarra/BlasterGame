@@ -70,6 +70,11 @@ _This is my local setup:_
 - _40GB of RAM_
 - _Windows 11 Home_
 
+## Credits
+
+- Font used: [Steelar by Maknastudio](https://www.fontspace.com/steelar-font-f116892)
+- Assets taken from: [opengameart.org by Clear_code](https://opengameart.org/content/assets-for-a-space-invader-like-game)
+
 ## License
 
 MIT
