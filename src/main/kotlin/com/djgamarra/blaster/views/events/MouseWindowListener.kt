@@ -5,6 +5,11 @@ import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
 
+/**
+ * This listener will notify our root scene with
+ * all mouse events. At the moment we are only
+ * using mouse moved and mouse clicked.
+ */
 class MouseWindowListener : MouseMotionListener, MouseListener {
     override fun mouseDragged(e: MouseEvent) {
     }

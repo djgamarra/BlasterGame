@@ -7,6 +7,10 @@ import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
+/**
+ * This is the initial scene in which we can go
+ * to settings or start a new game.
+ */
 class StartScene(private val background: StartBackground = StartBackground()) : Scene() {
     private val buttons = buildList {
         var y = ViewUtils.VIEWPORT_HEIGHT - 50 - ViewUtils.spacing()
