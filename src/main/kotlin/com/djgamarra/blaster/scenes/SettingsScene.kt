@@ -8,9 +8,18 @@ import com.djgamarra.blaster.utils.ViewUtils
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
 
+/**
+ * This is the settings scene, in which we
+ * can set the fps.
+ */
 class SettingsScene(private val background: StartBackground) : Scene() {
     private var currentFps = Settings.fps
 
+    /**
+     * This is a map so that it will be easy to set
+     * the current button active or inactive when
+     * the fps setting change.
+     */
     private val fpsButtons = buildMap {
         val spacing = 150
 
@@ -51,6 +60,10 @@ class SettingsScene(private val background: StartBackground) : Scene() {
         buttons.forEach { it.draw(g, ctx) }
     }
 
+    /**
+     * Everytime the fps change we set inactive the current button
+     * and active to the new one.
+     */
     private fun changeFps(fps: Long) {
         fpsButtons[currentFps]?.active = false
         Settings.fps = fps

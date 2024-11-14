@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent
  * is responsible for implementing mouse event handlers
  * or ticks and if it is composed by other ones it will
  * be responsible for calling these handlers to them
- * (events and/or ticks propagation).
+ * (events, draw and/or ticks propagation).
  */
 abstract class Scene {
     open fun mouseMoved(e: MouseEvent) {}
