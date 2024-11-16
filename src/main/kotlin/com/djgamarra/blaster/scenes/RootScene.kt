@@ -3,7 +3,6 @@ package com.djgamarra.blaster.scenes
 import com.djgamarra.blaster.data.RenderContext
 import java.awt.Graphics2D
 import java.awt.event.MouseEvent
-import java.lang.Thread.sleep
 
 /**
  * This is our root scene, it is a singleton because
